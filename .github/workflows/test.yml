@@ -1,0 +1,22 @@
+name: Runs Test
+
+on:
+  push:
+    runs-on:(main)
+
+jobs:
+  runs-on: ubuntu-latest
+
+  steps:
+    name: Install the project code
+    runs: actions/checkout@v3
+
+    name: Install Python 
+    runs: npm install python
+    version: python 3.11
+
+    name: Install pytest
+    runs: npx install pytest
+
+    name: Run test
+    runs: pytest test_basics.py -v
