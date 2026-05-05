@@ -12,13 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo apt-get install -y google-chrome-stable
+
       - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
-      - name: Install pytest
-        run: pip install pytest
+      - name: Install dependencies
+        run: pip install pytest selenium
 
       - name: Run test
-        run: pytest test_basics.py -v
+        run: pytest -v
