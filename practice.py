@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
 import pytest
 
 
@@ -16,19 +16,9 @@ def driver():
     drive.quit()
 
 
-def test_login_page(driver):
-    driver.get("https://the-internet.herokuapp.com/login")
-    assert "The Internet" in driver.title
-
-
-def test_login_success(driver):
-    driver.get("https://the-internet.herokuapp.com/login")
-    username = driver.find_element(By.ID, "username")
-    username.send_keys("tomsmith")
-    password = driver.find_element(By.ID, "password")
-    password.send_keys("SuperSecretPassword!")
-    button = driver.find_element(By.CSS_SELECTOR, "button[type='submit']")
-    button.click()
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.url_contains("secure"))
-    assert "secure" in driver.current_url
+def test_dropdown(driver):
+    driver.get("https://the-internet.herokuapp.com/dropdown")
+    dropdown = driver.find_element(By.ID, "dropdown")
+    select = Select(dropdown)
+    select.select_by_visible_text("Option 2")
+    assert select.first_selected_option.text == "Option 2"
