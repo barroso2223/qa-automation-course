@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import Select
 import pytest
 
 
@@ -16,9 +16,30 @@ def driver():
     drive.quit()
 
 
-def test_dropdown(driver):
-    driver.get("https://the-internet.herokuapp.com/dropdown")
-    dropdown = driver.find_element(By.ID, "dropdown")
-    select = Select(dropdown)
-    select.select_by_visible_text("Option 2")
-    assert select.first_selected_option.text == "Option 2"
+def test_js_alert(driver):
+    driver.get("https://the-internet.herokuapp.com/javascript_alerts")
+    button = driver.find_element(By.XPATH, "//button[text()='Click for JS Alert']")
+    button.click()
+    alert = driver.switch_to.alert
+    assert "I am a JS Alert" in alert.text
+    alert.accept()
+
+
+def test_js_confirm(driver):
+    driver.get("https://the-internet.herokuapp.com/javascript_alerts")
+    button = driver.find_element(By.XPATH, "//button[text()='Click for JS Confirm']")
+    button.click()
+    alert = driver.switch_to.alert
+    assert "I am a JS Confirm" in alert.text
+    alert.accept()
+
+
+def test_js_prompt(driver):
+    driver.get("https://the-internet.herokuapp.com/javascript_alerts")
+    button = driver.find_element(By.XPATH, "//button[text()='Click for JS Prompt']")
+    button.click()
+    alert = driver.switch_to.alert
+    alert.send_keys("Hello")
+    alert.accept()
+    result = driver.find_element(By.ID, "result")
+    assert "You entered: Hello" in result.text
