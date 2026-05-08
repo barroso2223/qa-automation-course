@@ -50,13 +50,3 @@ def test_login(driver):
     wait = WebDriverWait(driver, 10)
     wait.until(EC.url_contains("secure"))
     assert "secure" in driver.current_url
-
-
-import pytest
-from selenium.webdriver.common.by import By
-
-@pytest.fixture
-def driver():
-  driver.get("https://google.com")
-  drive = find_element(By.NAME, "q")
-  drive.get_keys("")....
