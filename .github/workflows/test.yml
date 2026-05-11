@@ -23,7 +23,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pytest selenium
+        run: pip install pytest selenium requests
 
       - name: Run test
         run: pytest test_basics.py test_selenium.py -v test_api.py -v
