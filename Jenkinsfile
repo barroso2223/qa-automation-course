@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out code...'
+                echo 'Checking out code from GitHub...'
                 checkout scm
             }
         }
@@ -12,24 +12,30 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo 'Installing Python dependencies...'
-                sh 'pip install pytest selenium requests --break-system-packages'
+                sh 'pip install pytest requests --break-system-packages'
             }
         }
 
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
+                echo 'Running automated tests...'
                 sh 'pytest test_basics.py test_api.py -v'
+            }
+        }
+
+        stage('Results') {
+            steps {
+                echo 'All tests completed'
             }
         }
     }
 
     post {
         success {
-            echo 'All tests passed!'
+            echo 'Pipeline passed - All tests green!'
         }
         failure {
-            echo 'Tests failed!'
+            echo 'Pipeline failed - check test results!'
         }
     }
 }
